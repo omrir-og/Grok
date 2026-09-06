@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grok · eToro Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="logo">◎</span>
+          <div>
+            <h1>Grok</h1>
+            <p class="tagline">eToro Portfolio Dashboard</p>
+          </div>
+        </div>
+        <div class="status">
+          <span id="mode-badge" class="badge">…</span>
+          <button id="refresh-btn" class="btn">Refresh</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="reconnect" class="reconnect hidden">
+          <p>Your eToro session expired.</p>
+          <a class="btn btn-primary" href="/api/auth/etoro/start">Reconnect to eToro</a>
+        </section>
+
+        <section class="summary" id="summary" aria-live="polite">
+          <article class="card"><h2>Equity</h2><p class="metric" id="m-equity">—</p></article>
+          <article class="card"><h2>Available Cash</h2><p class="metric" id="m-cash">—</p></article>
+          <article class="card"><h2>Total Invested</h2><p class="metric" id="m-invested">—</p></article>
+          <article class="card"><h2>Profit / Loss</h2><p class="metric" id="m-pnl">—</p></article>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Positions</h2>
+            <span class="muted" id="pos-count"></span>
+          </div>
+          <table class="positions">
+            <thead>
+              <tr>
+                <th>Instrument</th>
+                <th>Side</th>
+                <th class="num">Invested</th>
+                <th class="num">Entry</th>
+                <th class="num">Current</th>
+                <th class="num">P/L</th>
+              </tr>
+            </thead>
+            <tbody id="positions-body">
+              <tr><td colspan="6" class="muted center">Loading…</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="panel" id="copy-panel">
+          <div class="panel-head"><h2>Copy Traders</h2></div>
+          <div class="copy-list" id="copy-list"></div>
+        </section>
+
+        <p class="footer muted" id="footer"></p>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
