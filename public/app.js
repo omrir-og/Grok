@@ -84,8 +84,18 @@ function renderCopy(traders) {
 
 async function loadPortfolio() {
   const reconnect = document.getElementById('reconnect');
-  const res = await fetch('/api/portfolio');
-  if (res.status === 401) {
+  let res;
+  try {
+    res = await fetch('/api/portfolio');
+  } catch {
+    document.getElementById('positions-body').innerHTML =
+      '<tr><td colspan="6" class="center neg">Network error — is the server running?</td></tr>';
+    return;
+  }
+  const data = await res.json().catch(() => ({}));
+  // Only the explicit reconnect signal shows the SSO banner; a transient error
+  // must not masquerade as an expired session.
+  if (res.status === 401 && data.error === 'reconnect_required') {
     reconnect.classList.remove('hidden');
     return;
   }
@@ -95,7 +105,6 @@ async function loadPortfolio() {
       '<tr><td colspan="6" class="center neg">Failed to load portfolio</td></tr>';
     return;
   }
-  const data = await res.json();
   renderSummary(data.summary);
   renderPositions(data.positions);
   renderCopy(data.copyTraders);
